@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using futabus.models;
+using futabus.Login;
+using futabus.models;
 
 namespace futabus.Register
 {
@@ -72,7 +74,11 @@ namespace futabus.Register
                 if (registerSuccess)
                 {
                     MessageBox.Show("Đăng ký thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Close(); // Đóng form đăng ký sau khi đăng ký thành công
+                     // Đóng form đăng ký sau khi đăng ký thành công
+                    futabus.Login.Login form = new Login.Login();
+                    form.Show();
+                    this.Hide();
+
                 }
                 else
                 {

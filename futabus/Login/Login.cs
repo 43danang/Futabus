@@ -64,7 +64,6 @@ namespace futabus.Login
                 // Mở form Form1
                 Form1 form1 = new Form1();
                 form1.Show(); // Hiển thị form Form1
-                this.Close();
             }
             else
             {
