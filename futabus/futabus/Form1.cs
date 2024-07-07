@@ -10,12 +10,14 @@ using System.Windows.Forms;
 using Neo4j.Driver;
 using System;
 using System.Windows.Forms;
+using futabus.config;
 
 namespace futabus
 {
     public partial class Form1 : Form
     {
         private IDriver _driver;
+        private database _databaseConnection;
         public Form1()
         {
             InitializeComponent();
@@ -32,7 +34,9 @@ namespace futabus
         //}
         private async void Form1_Load(object sender, EventArgs e)
         {
-            await ConnectToNeo4j();
+            _databaseConnection = new database();
+
+            await _databaseConnection.GetDataFromDatabase("MATCH (s:Sinhvien) RETURN s");
         }
         private void btnConnectNeo4j_Click(object sender, EventArgs e)
         {
@@ -58,28 +62,21 @@ namespace futabus
             }
             
         }
-        private async Task<List<IRecord>> GetDataFromNeo4j()
+        //ví dụ cách dùng
+        private async void btnAddStudent_Click(object sender, EventArgs e)
         {
-            List<IRecord> resultRecords = new List<IRecord>();
+            // Lấy thông tin sinh viên từ các control trên form
+            int svID = 2;
+            string name = "Hoa";
+            int age = 20;
 
-            try
-            {
-                IAsyncSession session = _driver.AsyncSession();
-                var cursor = await session.RunAsync("MATCH (s:Sinhvien) RETURN s.SVid AS SVid, s.Name AS Name, s.age AS Age");
-                resultRecords = await cursor.ToListAsync();
-                await session.CloseAsync();
-            }
-            catch (Exception ex)
-            {
-                // Xử lý ngoại lệ nếu cần thiết
-                MessageBox.Show($"Error retrieving data from Neo4j: {ex.Message}");
-            }
-
-            return resultRecords;
+            // Thêm sinh viên vào cơ sở dữ liệu
+            await _databaseConnection.AddStudent(svID, name, age);
         }
+        
         private async void btnFetchData_Click(object sender, EventArgs e)
         {
-            var data = await GetDataFromNeo4j();
+            var data = await _databaseConnection.GetDataFromDatabase("MATCH (s:Sinhvien) RETURN s");
 
             // Hiển thị dữ liệu lên ListView, DataGridView hoặc ListBox
             // Ví dụ, hiển thị lên ListBox
