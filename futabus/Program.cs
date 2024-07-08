@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using futabus.Login;
 using futabus.Register;
-
+using futabus.HuyVe;
 
 namespace futabus
 {
@@ -19,7 +19,7 @@ namespace futabus
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Register.Register());
+            Application.Run(new HuyVe.HuyVe());
         }
     }
 }
