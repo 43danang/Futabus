@@ -194,6 +194,8 @@
     </Compile>
     <Compile Include="Login\userService.cs" />
     <Compile Include="models\Customer_Ticket.cs" />
+    <Compile Include="models\Ghe.cs" />
+    <Compile Include="models\TicketCancellation.cs" />
     <Compile Include="models\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

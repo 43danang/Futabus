@@ -16,7 +16,7 @@ namespace futabus.models
         public class CustomerTicket
         {
             [BsonId]
-            public ObjectId Id { get; set; }
+            public ObjectId _id { get; set; }
             public int MaVe { get; set; }
             public int MaChuyenDi { get; set; }
             public int MaKH { get; set; }
@@ -27,6 +27,7 @@ namespace futabus.models
             public string DiaDiemKhoiHanh { get; set; }
             public string DiaDiemDen { get; set; }
             public int GiaVe { get; set; }
+            public string TrangThai { get; set; }  
         }
         public class ThoiGian
         {

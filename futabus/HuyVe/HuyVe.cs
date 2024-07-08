@@ -11,15 +11,22 @@ using MongoDB.Driver;
 using MongoDB.Bson;
 using MongoDB.Libmongocrypt;
 using static futabus.models.Customer_Ticket;
-
+using futabus.models;
+using static futabus.models.TicketCancellation;
+using static futabus.models.Ghe;
 
 namespace futabus.HuyVe
 {
     public partial class HuyVe : Form
     {
-        public int MaVe = 6532;
+        private MongoClient _client;
+        private IMongoDatabase _database;
+        private int MaVe = 6532; // Mã vé mặc định, bạn có thể thay đổi hoặc nhập từ TextBox
+
         public HuyVe()
         {
+            _client = new MongoClient("mongodb://localhost:27017"); // Thay đổi kết nối nếu cần thiết
+            _database = _client.GetDatabase("BookingCar");
             InitializeComponent();
         }
 
@@ -29,11 +36,9 @@ namespace futabus.HuyVe
         }
         private void LoadDataFromMongoDB(int maVe)
         {
-            // Kết nối tới MongoDB
-            var connectionString = "mongodb://localhost:27017"; // Thay đổi kết nối nếu cần thiết
-            var client = new MongoClient(connectionString);
-            var database = client.GetDatabase("BookingCar");
-            var collection = database.GetCollection<CustomerTicket>("Customer_Ticket");
+          
+            
+            var collection = _database.GetCollection<CustomerTicket>("Customer_Ticket");
 
             // Tạo bộ lọc tìm kiếm theo MaVe
             var filter = Builders<CustomerTicket>.Filter.Eq("MaVe", MaVe);
@@ -52,6 +57,7 @@ namespace futabus.HuyVe
          gioKhoiHanh.Text = customerTicket.ThoiGian.GioKhoiHanhTimeSpan.ToString(@"hh\:mm");
 
                 soGhe.Text = string.Join(", ", customerTicket.SoGhe);
+                giaTien.Text=customerTicket.GiaVe.ToString();
 
                 //giaVe.Text = "Giá Vé: " + customerTicket.GiaVe;
             }
@@ -119,6 +125,78 @@ namespace futabus.HuyVe
 
         private void soGhe_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void giaTien_Click(object sender, EventArgs e)
+        {
+
+        }
+        private int GetNextCancellationID()
+        {
+            var collection = _database.GetCollection<TicketCancellation>("Ticket_Cancellation");
+            var maxId = collection.AsQueryable().Any() ? collection.AsQueryable().Max(x => x.ID) : 0;
+            return maxId + 1;
+        }
+
+        private void huyVeBtn_Click(object sender, EventArgs e)
+        {
+            var collection = _database.GetCollection<TicketCancellation>("Ticket_Cancellation");
+
+            var customerTicketCollection = _database.GetCollection<CustomerTicket>("Customer_Ticket");
+            var _filter = Builders<CustomerTicket>.Filter.Eq("MaVe", MaVe);
+            var customerTicket = customerTicketCollection.Find(_filter).FirstOrDefault();
+            var gheCollection = _database.GetCollection<Ghe>("Ghe");
+
+
+            if (customerTicket != null)
+            {
+                var newCancellation = new TicketCancellation
+                {
+                    ID = GetNextCancellationID(),
+                    MaVe = customerTicket.MaVe,
+                    MaChuyenDi = customerTicket.MaChuyenDi,
+                    MaKH = customerTicket.MaKH,
+                    SoGhe = customerTicket.SoGhe,
+                    NgayHuy = DateTime.Now.ToString("dd/MM/yyyy"),
+                    HoanTien = (int)(customerTicket.GiaVe * 0.6),
+                    TrangThai = "Đã hoàn tiền"
+                };
+
+                collection.InsertOne(newCancellation);
+                var updateFilter = Builders<CustomerTicket>.Filter.Eq("_id", customerTicket._id); //
+                var updateDefinition = Builders<CustomerTicket>.Update.Set("TrangThai", "Đã Huỷ");
+                customerTicketCollection.UpdateOne(updateFilter, updateDefinition);
+
+
+                //Ghe
+                var gheFilter = Builders<Ghe>.Filter.Eq("MaChuyenDi", customerTicket.MaChuyenDi);
+
+                var arrayFilters = new List<ArrayFilterDefinition<Ghe>>
+        {
+            new BsonDocumentArrayFilterDefinition<Ghe>(BsonDocument.Parse("{ 'elem.SoGhe': { $in: [" + string.Join(",", customerTicket.SoGhe.Select(g => "'" + g + "'")) + "] } }"))
+        };
+
+                var gheUpdateDefinition = Builders<Ghe>.Update.Set("DSGhe.$[elem].TrangThai", "Còn Trống");
+                var options = new UpdateOptions { ArrayFilters = arrayFilters };
+
+                gheCollection.UpdateMany(gheFilter, gheUpdateDefinition, options);
+
+                MessageBox.Show("Đã hủy vé thành công và cập nhật trạng thái ghế!");
+
+                MessageBox.Show("Đã hủy vé thành công và cập nhật trạng thái ghế!");
+
+
+
+
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy vé với Mã Vé: " + MaVe);
+            }
+
+
+
 
         }
     }
