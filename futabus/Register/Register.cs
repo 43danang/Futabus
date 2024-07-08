@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using futabus.models;
 using futabus.Login;
 using futabus.models;
+using DevExpress.Utils;
 
 namespace futabus.Register
 {
@@ -26,6 +27,11 @@ namespace futabus.Register
 
         public Register()
         {
+
+
+            FormBorderStyle = FormBorderStyle.FixedSingle; // Chỉ cho phép cố định kích thước
+            MaximizeBox = false; // Ẩn nút phóng to
+            MinimizeBox = false; // Ẩn nút thu nhỏ
             InitializeComponent();
             // Khởi tạo kết nối đến MongoDB
             _client = new MongoClient(connectionString);
@@ -133,6 +139,27 @@ namespace futabus.Register
             }
         }
         private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        
+
+        private void registerBtn_MouseEnter(object sender, EventArgs e)
+        {
+            registerBtn.BackColor = Color.OrangeRed;
+            registerBtn.ForeColor = Color.White;
+ 
+
+        }
+
+        private void registerBtn_MouseLeave(object sender, EventArgs e)
+        {
+            registerBtn.BackColor = SystemColors.Control;
+            registerBtn.ForeColor = SystemColors.ControlText;
+        }
+
+        private void label2_Click(object sender, EventArgs e)
         {
 
         }

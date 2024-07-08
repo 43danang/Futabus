@@ -19,7 +19,7 @@ namespace futabus
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new HuyVe.HuyVe());
+            Application.Run(new Register.Register());
         }
     }
 }

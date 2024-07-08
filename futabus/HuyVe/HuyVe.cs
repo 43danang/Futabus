@@ -15,6 +15,7 @@ using futabus.models;
 using static futabus.models.TicketCancellation;
 using static futabus.models.Ghe;
 
+
 namespace futabus.HuyVe
 {
     public partial class HuyVe : Form
@@ -32,6 +33,9 @@ namespace futabus.HuyVe
 
         private void HuyVe_Load(object sender, EventArgs e)
         {
+            FormBorderStyle = FormBorderStyle.FixedSingle; // Chỉ cho phép cố định kích thước
+            MaximizeBox = false; // Ẩn nút phóng to
+            MinimizeBox = false; // Ẩn nút thu nhỏ
             LoadDataFromMongoDB(MaVe);
         }
         private void LoadDataFromMongoDB(int maVe)
@@ -182,9 +186,13 @@ namespace futabus.HuyVe
 
                 gheCollection.UpdateMany(gheFilter, gheUpdateDefinition, options);
 
-                MessageBox.Show("Đã hủy vé thành công và cập nhật trạng thái ghế!");
 
-                MessageBox.Show("Đã hủy vé thành công và cập nhật trạng thái ghế!");
+                MessageBox.Show("Huỷ vé thành công");
+
+                // Đóng sẽ quay về trang xem vé cá nhân
+                //futabus.Login.Login form = new Login.Login();
+                //form.Show();
+                this.Hide();
 
 
 

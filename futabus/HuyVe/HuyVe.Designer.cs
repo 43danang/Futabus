@@ -200,13 +200,15 @@
             // 
             // huyVeBtn
             // 
+            this.huyVeBtn.BackColor = System.Drawing.Color.OrangeRed;
             this.huyVeBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.huyVeBtn.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.huyVeBtn.Location = new System.Drawing.Point(832, 86);
             this.huyVeBtn.Name = "huyVeBtn";
             this.huyVeBtn.Size = new System.Drawing.Size(196, 49);
             this.huyVeBtn.TabIndex = 21;
             this.huyVeBtn.Text = "Huỷ vé";
-            this.huyVeBtn.UseVisualStyleBackColor = true;
+            this.huyVeBtn.UseVisualStyleBackColor = false;
             this.huyVeBtn.Click += new System.EventHandler(this.huyVeBtn_Click);
             // 
             // giaTien
@@ -410,6 +412,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
             this.Name = "HuyVe";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "HuyVe";
             this.Load += new System.EventHandler(this.HuyVe_Load);
             this.panel2.ResumeLayout(false);

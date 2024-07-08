@@ -20,6 +20,10 @@ namespace futabus.Login
 
         public Login()
         {
+
+            FormBorderStyle = FormBorderStyle.FixedSingle; // Chỉ cho phép cố định kích thước
+            MaximizeBox = false; // Ẩn nút phóng to
+            MinimizeBox = false; // Ẩn nút thu nhỏ
             InitializeComponent();
         }
 
@@ -70,6 +74,18 @@ namespace futabus.Login
                 MessageBox.Show("Thông tin đăng nhập bị sai !");
             }
 
+        }
+
+        private void loginBtn_MouseEnter(object sender, EventArgs e)
+        {
+           loginBtn.BackColor = Color.OrangeRed;
+            loginBtn.ForeColor = Color.White;
+        }
+
+        private void loginBtn_MouseLeave(object sender, EventArgs e)
+        {
+            loginBtn.BackColor = SystemColors.Control;
+            loginBtn.ForeColor = SystemColors.ControlText;
         }
     }
 }
