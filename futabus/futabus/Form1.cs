@@ -8,8 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Neo4j.Driver;
-using System;
-using System.Windows.Forms;
 using futabus.config;
 
 namespace futabus
