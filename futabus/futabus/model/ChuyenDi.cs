@@ -8,6 +8,8 @@ namespace futabus.model
 {
     internal class ChuyenDi
     {
+        public string DiemDi { get; set; }
+        public string DiemDen { get; set; }
         public string SoChuyen { get; set; }
         public DateTime NgayDi { get; set; }
         public string GioDi { get; set; }
