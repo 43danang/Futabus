@@ -47,7 +47,6 @@
             this.diaDiemKhoiHanh = new System.Windows.Forms.Label();
             this.soGhe = new System.Windows.Forms.Label();
             this.maChuyenDi = new System.Windows.Forms.Label();
-            this.tenKH = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -55,8 +54,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -181,7 +180,6 @@
             this.panel1.Controls.Add(this.diaDiemKhoiHanh);
             this.panel1.Controls.Add(this.soGhe);
             this.panel1.Controls.Add(this.maChuyenDi);
-            this.panel1.Controls.Add(this.tenKH);
             this.panel1.Controls.Add(this.label9);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.label7);
@@ -189,8 +187,8 @@
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.panel3);
             this.panel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel1.Location = new System.Drawing.Point(12, 162);
             this.panel1.Name = "panel1";
@@ -203,7 +201,7 @@
             this.huyVeBtn.BackColor = System.Drawing.Color.OrangeRed;
             this.huyVeBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.huyVeBtn.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.huyVeBtn.Location = new System.Drawing.Point(832, 86);
+            this.huyVeBtn.Location = new System.Drawing.Point(859, 99);
             this.huyVeBtn.Name = "huyVeBtn";
             this.huyVeBtn.Size = new System.Drawing.Size(196, 49);
             this.huyVeBtn.TabIndex = 21;
@@ -301,16 +299,6 @@
             this.maChuyenDi.Text = "tenKH";
             this.maChuyenDi.Click += new System.EventHandler(this.maChuyenDi_Click);
             // 
-            // tenKH
-            // 
-            this.tenKH.AutoSize = true;
-            this.tenKH.Location = new System.Drawing.Point(388, 106);
-            this.tenKH.Name = "tenKH";
-            this.tenKH.Size = new System.Drawing.Size(79, 29);
-            this.tenKH.TabIndex = 9;
-            this.tenKH.Text = "tenKH";
-            this.tenKH.Click += new System.EventHandler(this.tenKH_Click);
-            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -381,16 +369,6 @@
             this.label3.TabIndex = 2;
             this.label3.Text = "Mã chuyến đi";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(18, 106);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(184, 29);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Tên khách hàng";
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -402,6 +380,14 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Xác nhận huỷ vé";
             this.label1.Click += new System.EventHandler(this.label1_Click_1);
+            // 
+            // panel3
+            // 
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Location = new System.Drawing.Point(12, 99);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(767, 513);
+            this.panel3.TabIndex = 22;
             // 
             // HuyVe
             // 
@@ -435,7 +421,6 @@
         private System.Windows.Forms.LinkLabel linkLabel_trangchu;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
@@ -444,7 +429,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label maChuyenDi;
-        private System.Windows.Forms.Label tenKH;
         private System.Windows.Forms.Label ngayKhoiHanh;
         private System.Windows.Forms.Label gioKhoiHanh;
         private System.Windows.Forms.Label diaDiemDen;
@@ -454,5 +438,6 @@
         private System.Windows.Forms.Label giaTien;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button huyVeBtn;
+        private System.Windows.Forms.Panel panel3;
     }
 }

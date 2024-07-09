@@ -22,7 +22,7 @@ namespace futabus.HuyVe
     {
         private MongoClient _client;
         private IMongoDatabase _database;
-        private int MaVe = 6532; // Mã vé mặc định, bạn có thể thay đổi hoặc nhập từ TextBox
+        private int MaVe=1; // Mã vé mặc định, bạn có thể thay đổi hoặc nhập từ TextBox
 
         public HuyVe()
         {
@@ -51,7 +51,6 @@ namespace futabus.HuyVe
             if (customerTicket != null)
             {
                 // Hiển thị dữ liệu lên các Label
-                tenKH.Text = "Thịnh";
                 label_maVe.Text = customerTicket.MaVe.ToString();
                maChuyenDi.Text =  customerTicket.MaChuyenDi.ToString();
                 
@@ -155,52 +154,85 @@ namespace futabus.HuyVe
 
             if (customerTicket != null)
             {
-                var newCancellation = new TicketCancellation
+                DateTime ngayHuy = DateTime.Now;
+                DateTime ngayKhoiHanh = customerTicket.ThoiGian.NgayKhoiHanhDateTime;
+
+                // Kiểm tra điều kiện NgayHuy phải trước ngayKhoiHanh 1 ngày
+                if (ngayHuy < ngayKhoiHanh.AddDays(-1))
                 {
-                    ID = GetNextCancellationID(),
-                    MaVe = customerTicket.MaVe,
-                    MaChuyenDi = customerTicket.MaChuyenDi,
-                    MaKH = customerTicket.MaKH,
-                    SoGhe = customerTicket.SoGhe,
-                    NgayHuy = DateTime.Now.ToString("dd/MM/yyyy"),
-                    HoanTien = (int)(customerTicket.GiaVe * 0.6),
-                    TrangThai = "Đã hoàn tiền"
-                };
+                    var newCancellation = new TicketCancellation
+                    {
+                        ID = GetNextCancellationID(),
+                        MaVe = customerTicket.MaVe,
+                        MaChuyenDi = customerTicket.MaChuyenDi,
+                        MaKH = customerTicket.MaKH,
+                        SoGhe = customerTicket.SoGhe,
+                        NgayHuy = ngayHuy.ToString("dd/MM/yyyy"),
+                        HoanTien = (int)(customerTicket.GiaVe * 0.6),
+                        TrangThai = "Đã hoàn tiền"
+                    };
 
-                collection.InsertOne(newCancellation);
-                var updateFilter = Builders<CustomerTicket>.Filter.Eq("_id", customerTicket._id); //
-                var updateDefinition = Builders<CustomerTicket>.Update.Set("TrangThai", "Đã Huỷ");
-                customerTicketCollection.UpdateOne(updateFilter, updateDefinition);
+                    collection.InsertOne(newCancellation);
+                    var updateFilter = Builders<CustomerTicket>.Filter.Eq("_id", customerTicket._id);
+                    var updateDefinition = Builders<CustomerTicket>.Update.Set("TrangThai", "Đã Huỷ");
+                    customerTicketCollection.UpdateOne(updateFilter, updateDefinition);
 
+                    // Cập nhật trạng thái ghế
+                    var gheFilter = Builders<Ghe>.Filter.Eq("MaChuyenDi", customerTicket.MaChuyenDi);
+                    var arrayFilters = new List<ArrayFilterDefinition>
+                    {
+                        new BsonDocumentArrayFilterDefinition<BsonDocument>(new BsonDocument("elem.SoGhe", new BsonDocument("$in", new BsonArray(customerTicket.SoGhe))))
+                    };
 
-                //Ghe
-                var gheFilter = Builders<Ghe>.Filter.Eq("MaChuyenDi", customerTicket.MaChuyenDi);
+                    var gheUpdateDefinition = Builders<Ghe>.Update.Set("DSGhe.$[elem].TrangThai", "Còn Trống");
+                    var options = new UpdateOptions { ArrayFilters = arrayFilters };
 
-                var arrayFilters = new List<ArrayFilterDefinition<Ghe>>
-        {
-            new BsonDocumentArrayFilterDefinition<Ghe>(BsonDocument.Parse("{ 'elem.SoGhe': { $in: [" + string.Join(",", customerTicket.SoGhe.Select(g => "'" + g + "'")) + "] } }"))
-        };
+                    gheCollection.UpdateMany(gheFilter, gheUpdateDefinition, options);
 
-                var gheUpdateDefinition = Builders<Ghe>.Update.Set("DSGhe.$[elem].TrangThai", "Còn Trống");
-                var options = new UpdateOptions { ArrayFilters = arrayFilters };
+                    // Hiển thị thông báo "Đang xử lý"
+                    var processingForm = new Form
+                    {
+                        Size = new Size(200, 100),
+                        StartPosition = FormStartPosition.CenterScreen,
+                        FormBorderStyle = FormBorderStyle.FixedDialog,
+                        BackColor = Color.DarkGray
+                        
+                    };
 
-                gheCollection.UpdateMany(gheFilter, gheUpdateDefinition, options);
+                    var label = new Label
+                    {
+                        Text = "Đang xử lý...",
+                        Dock = DockStyle.Fill,
+                        TextAlign = ContentAlignment.MiddleCenter
+                        
+                    };
 
+                    processingForm.Controls.Add(label);
+                    processingForm.Show();
 
-                MessageBox.Show("Huỷ vé thành công");
-
-                // Đóng sẽ quay về trang xem vé cá nhân
-                //futabus.Login.Login form = new Login.Login();
-                //form.Show();
-                this.Hide();
-
-
-
+                    // Đóng form "Đang xử lý" sau 3 giây
+                    Task.Delay(3000).ContinueWith(_ =>
+                    {
+                        processingForm.Invoke(new Action(() => processingForm.Close()));
+                        this.Invoke(new Action(() =>
+                        {
+                            MessageBox.Show("Đã hủy vé thành công ");
+                            // Đóng form hiện tại và mở form khác
+                            //this.Close();
+                            //var loginForm = new LoginForm(); // Thay LoginForm bằng form thực tế mà bạn muốn mở
+                            //loginForm.Show();
+                        }));
+                    });
+                }
+                else
+                {
+                    MessageBox.Show("Không thể hủy vé vì thời gian hủy phải trước ngày khởi hành ít nhất 1 ngày.");
+                }
 
             }
             else
             {
-                MessageBox.Show("Không tìm thấy vé với Mã Vé: " + MaVe);
+                MessageBox.Show("Đã xảy ra lỗi");
             }
 
 
