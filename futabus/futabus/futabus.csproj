@@ -81,6 +81,14 @@
     <Reference Include="Neo4j.Driver, Version=5.22.32.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Neo4j.Driver.5.22.0\lib\netstandard2.0\Neo4j.Driver.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="QRCoder, Version=1.6.0.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.6.0\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
     <Reference Include="SharpCompress, Version=0.30.1.0, Culture=neutral, PublicKeyToken=afb0a02973931d96, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpCompress.0.30.1\lib\net461\SharpCompress.dll</HintPath>
     </Reference>
@@ -169,24 +177,93 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
     <Reference Include="ZstdSharp, Version=0.7.3.0, Culture=neutral, PublicKeyToken=8d151af33a4ad5cf, processorArchitecture=MSIL">
       <HintPath>..\packages\ZstdSharp.Port.0.7.3\lib\net461\ZstdSharp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="config\database.cs" />
+    <Compile Include="DatVe\DatVe.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DatVe\DatVe.Designer.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Form1.Designer.cs" />
+    <Compile Include="hoadon\HoaDon.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="model\ChuyenDi.cs" />
+    <Compile Include="hoadon\HoaDon.Designer.cs">
+      <DependentUpon>HoaDon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HuyVe\HuyVe.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HuyVe\HuyVe.Designer.cs" />
+    <Compile Include="lienhe\LienHe.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="lienhe\LienHe.Designer.cs">
+      <DependentUpon>LienHe.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Login\Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login\Login.Designer.cs" />
+    <Compile Include="Login\userService.cs" />
+    <Compile Include="models\ChuyenDi.cs" />
+    <Compile Include="models\Customer_Ticket.cs" />
+    <Compile Include="models\Ghe.cs" />
+    <Compile Include="models\ThongTinVe.cs" />
+    <Compile Include="models\TicketCancellation.cs" />
+    <Compile Include="models\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Register\Register.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Register\Register.Designer.cs" />
+    <Compile Include="services\MongoDBService.cs" />
+    <Compile Include="ThanhToan\ChonPhuongThucThanhToan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ThanhToan\ChonPhuongThucThanhToan.Designer.cs" />
+    <Compile Include="ThanhToan\ThanhToanThanhCong.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ThanhToan\ThanhToanThanhCong.Designer.cs" />
+    <Compile Include="tintuc\TinTuc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="tintuc\TinTuc.Designer.cs">
+      <DependentUpon>TinTuc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TraCuuVe.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TraCuuVe.Designer.cs" />
+    <Compile Include="Utils\Session.cs" />
+    <Compile Include="vechungtoi\vechungtoi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="vechungtoi\vechungtoi.Designer.cs">
+      <DependentUpon>vechungtoi.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="DatVe\DatVe.resx" />
     <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Form11.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="hoadon\HoaDon.resx">
+      <DependentUpon>HoaDon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HuyVe\HuyVe.resx" />
+    <EmbeddedResource Include="lienhe\LienHe.resx">
+      <DependentUpon>LienHe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login\Login.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -196,6 +273,19 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Register\Register.resx" />
+    <EmbeddedResource Include="ThanhToan\ChonPhuongThucThanhToan.resx" />
+    <EmbeddedResource Include="ThanhToan\ThanhToanThanhCong.resx" />
+    <EmbeddedResource Include="tintuc\TinTuc.resx">
+      <DependentUpon>TinTuc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TraCuuVe.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TraCuuVe1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="vechungtoi\vechungtoi.resx">
+      <DependentUpon>vechungtoi.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="..\.editorconfig">
       <Link>.editorconfig</Link>
     </None>
@@ -220,6 +310,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="mongocrypt.dll" />
+    <Content Include="resources\Artboard 2-8.png" />
+    <Content Include="resources\empty_list.jpg" />
+    <Content Include="resources\LOGO.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="lichtrinh\" />
